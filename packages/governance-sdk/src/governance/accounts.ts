@@ -197,6 +197,7 @@ export class MintMaxVoteWeightSource {
 export enum VoteTypeKind {
   SingleChoice = 0,
   MultiChoice = 1,
+  MultiWeightedChoice = 2,
 }
 
 export class VoteType {
@@ -216,6 +217,12 @@ export class VoteType {
   static MULTI_CHOICE = (choiceCount: number) =>
     new VoteType({
       type: VoteTypeKind.MultiChoice,
+      choiceCount: choiceCount,
+    });
+
+  static MULTI_WEIGHTED_CHOICE = (choiceCount: number) =>
+    new VoteType({
+      type: VoteTypeKind.MultiWeightedChoice,
       choiceCount: choiceCount,
     });
 

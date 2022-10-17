@@ -101,7 +101,12 @@ import { deserializeBorsh } from '../tools/borsh';
   }
 
   const choiceCount = reader.buf.readUInt16LE(reader.offset);
+
+  if (value === VoteTypeKind.MultiWeightedChoice) {
+    return VoteType.MULTI_WEIGHTED_CHOICE(choiceCount);
+  }
   return VoteType.MULTI_CHOICE(choiceCount);
+
 };
 
 (BinaryWriter.prototype as any).writeVoteType = function (value: VoteType) {
@@ -110,7 +115,7 @@ import { deserializeBorsh } from '../tools/borsh';
   writer.buf.writeUInt8(value.type, writer.length);
   writer.length += 1;
 
-  if (value.type === VoteTypeKind.MultiChoice) {
+  if (value.type === VoteTypeKind.MultiChoice || value.type === VoteTypeKind.MultiWeightedChoice) {
     writer.buf.writeUInt16LE(value.choiceCount!, writer.length);
     writer.length += 2;
   }
